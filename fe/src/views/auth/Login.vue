@@ -28,8 +28,8 @@ const handleLogin = async () => {
     });
     response = await response.json()
     console.log(response, "response");
-    if (response && response.accessToken) {
-      setAccessToken(response.accessToken);
+    if (response && response.uid) {
+      setAccessToken(response.uid);
       window.location.href = "./dashboard";
     } else {
       toast("Passwords are not the same!", {

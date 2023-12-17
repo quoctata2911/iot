@@ -7,8 +7,8 @@ import Sidebar from "./Sidebar.vue";
 		<Header />
 		<div class="flex">
 			<Sidebar />
-      <div class="pt-3 w-[calc(100%-298px)] h-[calc(100vh-70px)]">
-        <router-view></router-view>
+      <div class="pt-3 w-[calc(100%-298px)]">
+					<router-view></router-view>
       </div>
 		</div>
 	</div>

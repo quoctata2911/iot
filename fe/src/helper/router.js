@@ -18,9 +18,14 @@ const router = createRouter({
           component: () => import("@/views/dashboard/Dashboard.vue"),
         },
         {
-          path: "/device",
+          path: "/device/:id",
           name: "device",
           component: () => import("@/views/device/Device.vue"),
+        },
+        {
+          path: "/home",
+          name: "home",
+          component: () => import("@/views/home/Home.vue"),
         },
       ],
     },

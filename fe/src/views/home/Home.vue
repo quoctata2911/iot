@@ -2,39 +2,33 @@
 import { ref, reactive, onMounted } from "vue";
 import { FwbButton, FwbModal, FwbInput, FwbCard } from "flowbite-vue";
 import { setAccessToken, getAccessToken } from "@/composables/useLocalStorage";
-import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const homes = reactive({});
-const value1 = ref("");
-const value2 = ref("");
-const value3 = ref("");
-const value4 = ref("");
+const name = ref("");
+const address = ref("");
 const isShowModal = ref(false);
 const uid = getAccessToken();
-const route = useRoute();
-const homeId = route.params.id;
 
 async function closeModal(params) {
   if (params) {
     try {
-      const url = `http://localhost:5000/api/device/${uid}/${homeId}/register`;
+      const url = `http://localhost:5000/api/home/${uid}/create-home`;
       let response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          device_name: value1.value,
-          mac_address: value2.value,
-          device_type: value3.value,
-          device_code: value4.value,
-        }),
+        body: JSON.stringify({ home_name: name.value, address: address.value }),
       });
-
       response = await response.json();
     } catch (e) {}
   }
   run();
+  name.value = ""
+  address.value = ""
   isShowModal.value = false;
 }
 function showModal() {
@@ -42,10 +36,11 @@ function showModal() {
 }
 
 const run = async () => {
-  const url = `http://localhost:5000/api/device/${uid}/${homeId}`;
+  const url = `http://localhost:5000/api/home/${uid}`;
+  console.log(url, "url");
   let response = await fetch(url);
   response = await response.json();
-  response.reverse();
+  response.reverse()
   Object.assign(homes, response);
   console.log(homes, "homes");
 };
@@ -58,7 +53,7 @@ onMounted(() => {
   <div class="h-[calc(100vh-125px)]">
     <div class="mb-2">
       <fwb-button @click="showModal" gradient="purple-blue"
-        >Add device</fwb-button
+        >Add home</fwb-button
       >
 
       <fwb-modal v-if="isShowModal" @close="closeModal">
@@ -66,13 +61,19 @@ onMounted(() => {
           <div class="flex items-center text-lg">Terms of Service</div>
         </template>
         <template #body>
-          <fwb-input v-model="value1" label="Name" size="sm" />
+          <fwb-input
+            v-model="name"
+            label="Name"
+            placeholder="enter your name"
+            size="sm"
+          />
           <div class="h-5"></div>
-          <fwb-input v-model="value2" label="mac_address " size="sm" />
-          <div class="h-5"></div>
-          <fwb-input v-model="value3" label="device_type " size="sm" />
-          <div class="h-5"></div>
-          <fwb-input v-model="value4" label="device_code" size="sm" />
+          <fwb-input
+            v-model="address"
+            label="Address"
+            placeholder="enter your address"
+            size="sm"
+          />
         </template>
         <template #footer>
           <div class="flex justify-between">
@@ -95,18 +96,16 @@ onMounted(() => {
           img-src="https://flowbite.com/docs/images/blog/image-1.jpg"
           variant="image"
           class="cursor-pointer w-[350px]"
+          @click="router.push(`/device/${item._id}`)"
         >
           <div class="p-5">
             <h5
               class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
             >
-            name: {{ item.device_name }}
+              {{ item.home_name }}
             </h5>
             <p class="font-normal text-gray-700 dark:text-gray-400">
-              mac address: {{ item.mac_address }}
-            </p>
-            <p class="font-normal text-gray-700 dark:text-gray-400">
-              {{ "type: " + item.device_status.type + " - " + "code: "+item.device_status.code }}
+              {{ item.address }}
             </p>
           </div>
         </fwb-card>
