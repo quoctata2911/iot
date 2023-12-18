@@ -11,10 +11,11 @@ const name = ref("");
 const address = ref("");
 const isShowModal = ref(false);
 const uid = getAccessToken();
-
+let editId = "";
 async function closeModal(params) {
-  if (params) {
-    try {
+  console.log(params, "params");
+  try {
+    if (params === 1) {
       const url = `http://localhost:5000/api/home/${uid}/create-home`;
       let response = await fetch(url, {
         method: "POST",
@@ -23,16 +24,24 @@ async function closeModal(params) {
         },
         body: JSON.stringify({ home_name: name.value, address: address.value }),
       });
-      response = await response.json();
-    } catch (e) {}
-  }
+    } else if (params === 2) {
+      const url = `http://localhost:5000/api/home/${uid}/edit/${editId}`;
+      let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ home_name: name.value, address: address.value }),
+      });
+    }
+  } catch (e) {}
   run();
-  name.value = ""
-  address.value = ""
+  name.value = "";
+  address.value = "";
   isShowModal.value = false;
 }
 function showModal() {
-  isShowModal.value = true;
+  isShowModal.value = 1;
 }
 
 const run = async () => {
@@ -40,7 +49,7 @@ const run = async () => {
   console.log(url, "url");
   let response = await fetch(url);
   response = await response.json();
-  response.reverse()
+  response.reverse();
   Object.assign(homes, response);
   console.log(homes, "homes");
 };
@@ -48,6 +57,24 @@ const run = async () => {
 onMounted(() => {
   run();
 });
+
+const editHome = (id, event) => {
+  event.stopPropagation();
+  isShowModal.value = 2;
+  console.log(id);
+  editId = id;
+};
+
+const deleteHome = async (id, event) => {
+  event.stopPropagation();
+  console.log();
+
+  const url = `http://localhost:5000/api/home/${uid}/delete/${id}`;
+  let response = await fetch(url, {
+    method: "DELETE",
+  });
+  run();
+};
 </script>
 <template>
   <div class="h-[calc(100vh-125px)]">
@@ -58,7 +85,9 @@ onMounted(() => {
 
       <fwb-modal v-if="isShowModal" @close="closeModal">
         <template #header>
-          <div class="flex items-center text-lg">Terms of Service</div>
+          <div class="flex items-center text-lg">
+            {{ isShowModal === 1 ? "Thêm nhà" : "Sửa nhà" }}
+          </div>
         </template>
         <template #body>
           <fwb-input
@@ -77,10 +106,10 @@ onMounted(() => {
         </template>
         <template #footer>
           <div class="flex justify-between">
-            <fwb-button @click="closeModal" color="alternative">
+            <fwb-button @click="closeModal(false)" color="alternative">
               Decline
             </fwb-button>
-            <fwb-button @click="closeModal" color="green">
+            <fwb-button @click="closeModal(isShowModal)" color="green">
               I accept
             </fwb-button>
           </div>
@@ -93,7 +122,7 @@ onMounted(() => {
       <div v-for="item in homes">
         <fwb-card
           img-alt="Desk"
-          img-src="https://flowbite.com/docs/images/blog/image-1.jpg"
+          img-src="https://www.pbctoday.co.uk/news/wp-content/uploads/2023/10/Smart-homes-scaled.jpg"
           variant="image"
           class="cursor-pointer w-[350px]"
           @click="router.push(`/device/${item._id}`)"
@@ -107,6 +136,14 @@ onMounted(() => {
             <p class="font-normal text-gray-700 dark:text-gray-400">
               {{ item.address }}
             </p>
+            <div class="flex gap-2 justify-end">
+              <fwb-button @click="editHome(item._id, $event)" gradient="green"
+                >Chỉnh sửa</fwb-button
+              >
+              <fwb-button @click="deleteHome(item._id, $event)" gradient="red"
+                >Xóa</fwb-button
+              >
+            </div>
           </div>
         </fwb-card>
       </div>

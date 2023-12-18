@@ -214,9 +214,11 @@ router.delete("/:uid/members/:hid", middlewareController.verifyTokenAndOwnerAuth
 
 router.delete("/:hid/remove-members/:uid", middlewareController.verifyTokenAndOwnerAuthOrIsUser, homeController.deleteUser);
 
-router.delete("/:uid/delete/:hid", middlewareController.verifyTokenAndOwnerAuth, homeController.delete); // Id is homeId Delete
+// router.delete("/:uid/delete/:hid", middlewareController.verifyTokenAndOwnerAuth, homeController.delete); // Id is homeId Delete
+router.delete("/:uid/delete/:hid", homeController.delete); // Id is homeId Delete
 
-router.put("/:uid/edit/:hid", middlewareController.verifyTokenAndOwnerAuth, homeController.edit); // Id is homeId Edit
+// router.put("/:uid/edit/:hid", middlewareController.verifyTokenAndOwnerAuth, homeController.edit); // Id is homeId Edit
+router.put("/:uid/edit/:hid", homeController.edit); // Id is homeId Edit
 
 // router.post("/:uid/create-home", middlewareController.verifyTokenAndCheckIsUser, homeController.create);
 router.post("/:uid/create-home", homeController.create);

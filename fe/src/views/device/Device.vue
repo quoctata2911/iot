@@ -58,21 +58,21 @@ onMounted(() => {
   <div class="h-[calc(100vh-125px)]">
     <div class="mb-2">
       <fwb-button @click="showModal" gradient="purple-blue"
-        >Add device</fwb-button
-      >
+        >Add device</fwb-button>
+     
 
       <fwb-modal v-if="isShowModal" @close="closeModal">
         <template #header>
-          <div class="flex items-center text-lg">Terms of Service</div>
+          <div class="flex items-center text-lg">Thêm thiết bị</div>
         </template>
         <template #body>
           <fwb-input v-model="value1" label="Name" size="sm" />
           <div class="h-5"></div>
-          <fwb-input v-model="value2" label="mac_address " size="sm" />
+          <fwb-input v-model="value2" label="mac address " size="sm" />
           <div class="h-5"></div>
-          <fwb-input v-model="value3" label="device_type " size="sm" />
+          <fwb-input v-model="value3" label="device type " size="sm" />
           <div class="h-5"></div>
-          <fwb-input v-model="value4" label="device_code" size="sm" />
+          <fwb-input v-model="value4" label="device code" size="sm" />
         </template>
         <template #footer>
           <div class="flex justify-between">
@@ -100,13 +100,19 @@ onMounted(() => {
             <h5
               class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white"
             >
-            name: {{ item.device_name }}
+              name: {{ item.device_name }}
             </h5>
             <p class="font-normal text-gray-700 dark:text-gray-400">
               mac address: {{ item.mac_address }}
             </p>
             <p class="font-normal text-gray-700 dark:text-gray-400">
-              {{ "type: " + item.device_status.type + " - " + "code: "+item.device_status.code }}
+              {{
+                "type: " +
+                item.device_status.type +
+                " - " +
+                "code: " +
+                item.device_status.code
+              }}
             </p>
           </div>
         </fwb-card>

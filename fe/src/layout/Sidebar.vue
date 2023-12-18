@@ -19,7 +19,7 @@ const sidebar = [
         v-for="item in sidebar"
         :key="item.id"
         :class="`${route.path.includes(item.tab.toLowerCase()) ? 'bg-blue-300' : 'bg-white '}  mx-2 my-2 rounded-lg h-10 px-2 flex items-center cursor-pointer hover:bg-slate-400`"
-        @click="router.push(`/${item.tab.toLowerCase()}`)"
+        @click="item.id !== 2 && router.push(`/${item.tab.toLowerCase()}`)"
       >
         <div>
           {{ item.tab }}
