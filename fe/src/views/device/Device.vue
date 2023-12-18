@@ -53,6 +53,23 @@ const run = async () => {
 onMounted(() => {
   run();
 });
+
+const editHome = (id, event) => {
+  event.stopPropagation();
+  // isShowModal.value = 2;
+  console.log(id);
+};
+
+const deleteHome = async (id, event) => {
+  event.stopPropagation();
+  console.log(id);
+
+  // const url = `http://localhost:5000/api/home/${uid}/delete/${id}`;
+  // let response = await fetch(url, {
+  //   method: "DELETE",
+  // });
+  // run();
+};
 </script>
 <template>
   <div class="h-[calc(100vh-125px)]">
@@ -114,6 +131,14 @@ onMounted(() => {
                 item.device_status.code
               }}
             </p>
+            <div class="flex gap-2 justify-end mt-4">
+              <fwb-button @click="editHome(item._id, $event)" gradient="green"
+                >Chỉnh sửa</fwb-button
+              >
+              <fwb-button @click="deleteHome(item._id, $event)" gradient="red"
+                >Xóa</fwb-button
+              >
+            </div>
           </div>
         </fwb-card>
       </div>
