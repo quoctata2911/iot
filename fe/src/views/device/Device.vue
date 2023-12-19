@@ -13,10 +13,11 @@ const isShowModal = ref(false);
 const uid = getAccessToken();
 const route = useRoute();
 const homeId = route.params.id;
+let idEdit = ""
 
 async function closeModal(params) {
-  if (params) {
-    try {
+  try {
+    if (params === 1) {
       const url = `http://localhost:5000/api/device/${uid}/${homeId}/register`;
       let response = await fetch(url, {
         method: "POST",
@@ -32,13 +33,29 @@ async function closeModal(params) {
       });
 
       response = await response.json();
-    } catch (e) {}
-  }
+    } else if (params === 2) {
+      const url = `http://localhost:5000/api/device/${uid}/${homeId}/${idEdit}`;
+      let response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          device_name: value1.value,
+          mac_address: value2.value,
+          device_type: value3.value,
+          device_code: value4.value,
+        }),
+      });
+
+      response = await response.json();
+    }
+  } catch (e) {}
   run();
   isShowModal.value = false;
 }
 function showModal() {
-  isShowModal.value = true;
+  isShowModal.value = 1;
 }
 
 const run = async () => {
@@ -46,6 +63,7 @@ const run = async () => {
   let response = await fetch(url);
   response = await response.json();
   response.reverse();
+  Object.keys(homes).forEach((key) => delete homes[key]);
   Object.assign(homes, response);
   console.log(homes, "homes");
 };
@@ -57,30 +75,34 @@ onMounted(() => {
 const editHome = (id, event) => {
   event.stopPropagation();
   // isShowModal.value = 2;
+  idEdit = id
   console.log(id);
+  isShowModal.value = 2;
 };
 
 const deleteHome = async (id, event) => {
   event.stopPropagation();
   console.log(id);
 
-  // const url = `http://localhost:5000/api/home/${uid}/delete/${id}`;
-  // let response = await fetch(url, {
-  //   method: "DELETE",
-  // });
-  // run();
+  const url = `http://localhost:5000/api/device/${uid}/${homeId}/${id}`;
+  let response = await fetch(url, {
+    method: "DELETE",
+  });
+  run();
 };
 </script>
 <template>
   <div class="h-[calc(100vh-125px)]">
     <div class="mb-2">
       <fwb-button @click="showModal" gradient="purple-blue"
-        >Add device</fwb-button>
-     
+        >Add device</fwb-button
+      >
 
       <fwb-modal v-if="isShowModal" @close="closeModal">
         <template #header>
-          <div class="flex items-center text-lg">Thêm thiết bị</div>
+          <div class="flex items-center text-lg">
+            {{ isShowModal === 1 ? "Thêm thiết bị" : "Sửa thiết bị" }}
+          </div>
         </template>
         <template #body>
           <fwb-input v-model="value1" label="Name" size="sm" />
@@ -96,7 +118,7 @@ const deleteHome = async (id, event) => {
             <fwb-button @click="closeModal" color="alternative">
               Decline
             </fwb-button>
-            <fwb-button @click="closeModal" color="green">
+            <fwb-button @click="closeModal(isShowModal)" color="green">
               I accept
             </fwb-button>
           </div>

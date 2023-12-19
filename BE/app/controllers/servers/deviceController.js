@@ -122,6 +122,7 @@ class deviceController {
     }
 
     async edit(req, res) {
+        console.log(req.body, "req.body");
         Device.updateOne({ _id: req.params.did }, req.body)
             .then(async () => {
                 res.status(200).json("Update Successfully!");

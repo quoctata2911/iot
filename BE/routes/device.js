@@ -143,9 +143,11 @@ const middlewareController = require("../app/middlewares/middlewareController");
 // router.post("/:uid/:hid/register", middlewareController.verifyTokenAndCheckIsUser, deviceController.register);
 router.post("/:uid/:hid/register", deviceController.register);
 
-router.put("/:uid/:hid/:did", middlewareController.verifyTokenAndCheckIsUser, deviceController.edit);
+// router.put("/:uid/:hid/:did", middlewareController.verifyTokenAndCheckIsUser, deviceController.edit);
+router.put("/:uid/:hid/:did", deviceController.edit);
 
-router.delete("/:uid/:hid/:did", middlewareController.verifyTokenAndCheckIsUser, deviceController.delete);
+// router.delete("/:uid/:hid/:did", middlewareController.verifyTokenAndCheckIsUser, deviceController.delete);
+router.delete("/:uid/:hid/:did", deviceController.delete);
 
 // router.get("/:uid/:hid", middlewareController.verifyTokenAndCheckIsUser, deviceController.view);
 router.get("/:uid/:hid", deviceController.view);
