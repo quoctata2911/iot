@@ -14,7 +14,7 @@ const password = ref("");
 const confirmPassword = ref("");
 const token = getAccessToken();
 if (token) {
-  window.location.href = "./dashboard";
+  window.location.href = "./home";
 }
 
 const handleLogin = async () => {
@@ -30,7 +30,7 @@ const handleLogin = async () => {
     console.log(response, "response");
     if (response && response.uid) {
       setAccessToken(response.uid);
-      window.location.href = "./dashboard";
+      window.location.href = "./home";
     } else {
       toast("Passwords are not the same!", {
         autoClose: 1000,
@@ -93,7 +93,7 @@ const handleLogin = async () => {
                 <div class="rounded-t mb-0 px-6 py-6">
                   <div class="text-center mb-3">
                     <h6 class="text-gray-600 text-sm font-bold">
-                      Sign in with
+                      Login
                     </h6>
                   </div>
                   <div class="btn-wrapper text-center">
@@ -119,7 +119,7 @@ const handleLogin = async () => {
                 </div>
                 <div class="flex-auto px-4 lg:px-10 py-10 pt-0">
                   <div class="text-gray-500 text-center mb-3 font-bold">
-                    <small>Or sign in with credentials</small>
+                    <!-- <small>Or sign in with credentials</small> -->
                   </div>
                   <form>
                     <div v-if="!isLogin" class="relative w-full mb-3">
@@ -203,7 +203,7 @@ const handleLogin = async () => {
                       </button>
                     </div>
                     <div
-                      class="cursor-pointer pt-2 w-fit max-w-[130px] select-none"
+                      class="cursor-pointer mt-2 w-fit max-w-[130px] select-none border flex items-center justify-center py-1 px-2 rounded-lg bg-[#fcf2f4] border-[#b1a6a6]"
                       @click="isLogin = !isLogin"
                     >
                       {{ isLogin ? "Register" : "Login" }}

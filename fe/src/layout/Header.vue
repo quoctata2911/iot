@@ -28,7 +28,7 @@ getProfile();
 </script>
 <template>
 	<div class="header bg-primary flex justify-between items-center px-4">
-		<div class="text-white font-bold text-2xl">Logo</div>
+		<div class="text-white font-bold text-2xl">Quản lý thiết bị IOT</div>
 		<div class="flex items-center gap-2 font-semibold">
 			<Dropdown :isShowDropDown="isShowDropDown" :toggleDropDown="toggleDropDown" :position="'bottom'" width="200px">
 				<template #triggerButton>

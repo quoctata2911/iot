@@ -4,7 +4,7 @@ const router = useRouter();
 const route = useRoute();
 
 const sidebar = [
-  { id: 1, tab: "Dashboard" },
+  // { id: 1, tab: "Dashboard" },
   { id: 3, tab: "Home" },
   { id: 2, tab: "Device" },
 ];
