@@ -180,7 +180,7 @@ const onOff = async (value) => {
       </fwb-modal>
     </div>
     <div
-      class="flex gap-4 flex-wrap justify-between mr-3 h-full overflow-auto scroll-w-2"
+      class="flex gap-4 flex-wrap justify-center mr-3 h-full overflow-auto scroll-w-2"
     >
       <div v-for="item in homes">
         <fwb-card
