@@ -32,6 +32,7 @@ const led = ref("");
 const runSocket = () => {
   socket.on("send-dht", (data) => {
     dht.value = data;
+    dht.value.time = new Date()
   });
 
   socket.on("send-led", (data) => {
@@ -317,6 +318,7 @@ const onOff = async (value) => {
                 }}
                 °C
               </div>
+              <div class="text-xl">thời gian: {{dht.time.toLocaleString()}}</div>
             </div>
           </div>
 
