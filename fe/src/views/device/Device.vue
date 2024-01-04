@@ -135,7 +135,7 @@ const onOff = async (value) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      value: value ? "ON" : "OFF",
+      value: !value ? "ON" : "OFF",
     }),
   });
   response = await response.json();
