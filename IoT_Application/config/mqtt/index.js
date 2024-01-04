@@ -19,6 +19,7 @@ async function mqttconnect() {
             client.subscribe(['send/led', 'send/dht22', 'send/create']);
         })
         client.on('message', async (topic, data) => {
+            console.log(topic, data, "check")
             switch (topic) {
                 case 'send/create':
                     const create = data.toString();
