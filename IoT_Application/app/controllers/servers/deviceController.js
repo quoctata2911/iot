@@ -156,8 +156,12 @@ class deviceController {
                         else if (req.body.value == "OFF") {
                             device.device_status.value = "OFF";
                         }
-                        device.save();
-                        publisherDevice.publisherControlDevice(device, device.mac_address);
+                        console.log("start")
+                        setTimeout(() => {
+                            console.log("timeout ok")
+                            device.save();
+                            publisherDevice.publisherControlDevice(device, device.mac_address);
+                        },req.body.minuteWait * 60 * 1000 )
                         res.status(200).json("Control Successfully!");
                     }
                     else {

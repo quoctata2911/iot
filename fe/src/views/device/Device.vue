@@ -20,6 +20,7 @@ const value4 = ref("");
 const isShowModal = ref(false);
 const isShowModal2 = ref(false);
 const typeOpenDetail = ref("");
+const minuteWait = ref(0)
 const uid = getAccessToken();
 const route = useRoute();
 const homeId = route.params.id;
@@ -137,6 +138,7 @@ const onOff = async (value) => {
     },
     body: JSON.stringify({
       value: !value ? "ON" : "OFF",
+      minuteWait: minuteWait.value
     }),
   });
   response = await response.json();
@@ -226,8 +228,11 @@ const onOff = async (value) => {
               class="text-center flex flex-col justify-center"
             >
               <!-- <fwb-toggle class="mx-auto" @click="onOff(!typeOpenDetail.device_online)" v-model="typeOpenDetail.device_online" :label="typeOpenDetail.device_online ? 'on' : 'off'" /> -->
-
-              <div class="flex gap-2 mx-auto">
+              
+              <div class="flex gap-2 items-center mx-auto">
+                <div class="text-sm">Sẽ tắt sau</div>
+                <input v-model="minuteWait" class="text-sm border w-8 outline-none rounded-md text-center" />
+                <div class="text-sm">Phút</div>
                 <fwb-button
                   @click="onOff(false)"
                   gradient="green"
